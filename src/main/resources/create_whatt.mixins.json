@@ -2,7 +2,12 @@
   "required": true,
   "package": "eu.dudko.create_whatt.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+
+  ],
+  "client": [
+    "TrainMapManagerMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },

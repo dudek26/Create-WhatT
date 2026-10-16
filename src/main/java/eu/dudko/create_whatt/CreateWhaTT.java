@@ -1,14 +1,11 @@
 package eu.dudko.create_whatt;
 
-import net.minecraft.resources.ResourceLocation;
-import org.slf4j.Logger;
-
 import com.mojang.logging.LogUtils;
-
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.fml.common.Mod;
+import org.slf4j.Logger;
 
 @Mod(CreateWhaTT.ID)
 public class CreateWhaTT {
@@ -17,7 +14,6 @@ public class CreateWhaTT {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public CreateWhaTT(IEventBus eventBus, ModContainer container) {
-        NeoForge.EVENT_BUS.register(this);
     }
 
     public static ResourceLocation id(String key) {
