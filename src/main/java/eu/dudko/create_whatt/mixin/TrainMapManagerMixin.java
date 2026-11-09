@@ -27,9 +27,11 @@ public abstract class TrainMapManagerMixin {
 
         if (trainEntry.ownerName.isBlank()) {
             String ownerName = ProfileManager.INSTANCE.getNameOrFetch(train.owner, "...");
-            CreateLang.translate("train_map.train_owned_by", ownerName)
-//                    .add(Component.literal("\uD83D\uDCA4"))
-                      .add(Component.literal(" \uEF23")).color(red).addTo(output);
+            CreateLang
+                    .translate("train_map.train_owned_by", ownerName)
+                    .add(Component.literal(" \uEF23"))
+                    .color(red)
+                    .addTo(output);
         }
     }
 }
