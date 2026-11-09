@@ -23,15 +23,13 @@ public abstract class TrainMapManagerMixin {
     private static void create_whatt$extraTrainDetails(Train train, CallbackInfoReturnable<List<FormattedText>> cir, @Local(
             name = "trainEntry") TrainMapSync.TrainMapSyncEntry trainEntry, @Local(name = "output") List<FormattedText> output) {
 
-        int red = 0xE0C3C3;
+        int red = 0xE0A3A3;
 
         if (trainEntry.ownerName.isBlank()) {
             String ownerName = ProfileManager.INSTANCE.getNameOrFetch(train.owner, "...");
-            CreateLang
-                    .translate("train_map.train_owned_by", ownerName)
-                    .add(Component.literal("\uD83D\uDCA4"))
-                    .color(red)
-                    .addTo(output);
+            CreateLang.translate("train_map.train_owned_by", ownerName)
+//                    .add(Component.literal("\uD83D\uDCA4"))
+                      .add(Component.literal(" \uEF23")).color(red).addTo(output);
         }
     }
 }

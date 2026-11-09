@@ -1,0 +1,13 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "create_whatt:font/sleep.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "\uEF23"
+      ]
+    }
+  ]
+}
