@@ -6,6 +6,7 @@ import com.simibubi.create.compat.trainmap.TrainMapSync;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.foundation.utility.CreateLang;
 import eu.dudko.create_whatt.foundation.ProfileManager;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +27,11 @@ public abstract class TrainMapManagerMixin {
 
         if (trainEntry.ownerName.isBlank()) {
             String ownerName = ProfileManager.INSTANCE.getNameOrFetch(train.owner, "...");
-            CreateLang.translate("train_map.train_owned_by", ownerName).color(red).addTo(output);
+            CreateLang
+                    .translate("train_map.train_owned_by", ownerName)
+                    .add(Component.literal("\uD83D\uDCA4"))
+                    .color(red)
+                    .addTo(output);
         }
     }
 }

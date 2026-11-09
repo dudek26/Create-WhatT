@@ -9,7 +9,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.*;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @OnlyIn(Dist.CLIENT)
@@ -18,13 +21,14 @@ public class ProfileManager {
     public static final ProfileManager INSTANCE = new ProfileManager();
 
     private static final String url = "https://sessionserver.mojang.com/session/minecraft/profile/";
+    private static final int REFETCH_DELAY = 1000 * 60; // 1 min
 
     private final Map<UUID, String> playerNames;
-    private final List<UUID> requested;
+    private final Map<UUID, Instant> requested;
 
     private ProfileManager() {
         playerNames = new HashMap<>();
-        requested = new ArrayList<>();
+        requested = new HashMap<>();
     }
 
     public String getPlayerName(UUID uuid) {
@@ -45,7 +49,8 @@ public class ProfileManager {
     }
 
     private void fetchPlayerName(UUID uuid) {
-        if (requested.contains(uuid)) return;
+        Instant now = Instant.now();
+        if (requested.getOrDefault(uuid, Instant.MIN).plusMillis(REFETCH_DELAY).isAfter(now)) return;
         CompletableFuture.runAsync(() -> {
             try (HttpClient client = HttpClient.newHttpClient()) {
                 HttpRequest
@@ -60,7 +65,7 @@ public class ProfileManager {
                 }
             }
         });
-        requested.add(uuid);
+        requested.put(uuid, now);
     }
 
 
