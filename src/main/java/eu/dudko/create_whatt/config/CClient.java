@@ -29,7 +29,7 @@ public class CClient extends ConfigBase {
         static String showOfflineOwnerIcon = "Show \uEF23 icon next to offline player train owner name, if enabled.";
         static String[] offlineOwnerNameColor = new String[]{
                 "The custom text color to use for offline train owner name, if enabled.",
-                "[in Hex: #AaRrGgBb]",
+                "[in Hex: #RrGgBb]",
                 ConfigAnnotations.IntDisplay.HEX.asComment()
         };
         static String showTrainUuid = "Show train UUID on map.";
