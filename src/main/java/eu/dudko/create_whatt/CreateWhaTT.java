@@ -1,6 +1,7 @@
 package eu.dudko.create_whatt;
 
 import com.mojang.logging.LogUtils;
+import eu.dudko.create_whatt.config.WhattConfigs;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -14,6 +15,7 @@ public class CreateWhaTT {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public CreateWhaTT(IEventBus eventBus, ModContainer container) {
+        WhattConfigs.register(container);
     }
 
     public static ResourceLocation id(String key) {

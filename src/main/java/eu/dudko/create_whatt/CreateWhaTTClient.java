@@ -1,21 +1,30 @@
 package eu.dudko.create_whatt;
 
+import eu.dudko.create_whatt.config.WhattConfigs;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+
+import java.util.function.Supplier;
 
 @Mod(value = CreateWhaTT.ID, dist = Dist.CLIENT)
-@EventBusSubscriber(modid = CreateWhaTT.ID, value = Dist.CLIENT)
 public class CreateWhaTTClient {
 
-    public CreateWhaTTClient(ModContainer container) {
+    private final ModContainer container;
+
+    public CreateWhaTTClient(ModContainer container, IEventBus eventBus) {
+        this.container = container;
+        eventBus.addListener(this::onLoadComplete);
+
     }
 
-    @SubscribeEvent
-    static void onClientSetup(FMLClientSetupEvent event) {
-
+    private void onLoadComplete(FMLLoadCompleteEvent event) {
+        Supplier<IConfigScreenFactory>
+                configScreen =
+                () -> (mc, previousScreen) -> WhattConfigs.createConfigScreen(previousScreen);
+        container.registerExtensionPoint(IConfigScreenFactory.class, configScreen);
     }
 }
