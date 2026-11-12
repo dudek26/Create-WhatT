@@ -6,7 +6,8 @@
 
   ],
   "client": [
-    "TrainMapManagerMixin"
+    "TrainMapManagerMixin",
+    "compat.xaeros.GuiMapMixin"
   ],
   "injectors": {
     "defaultRequire": 1

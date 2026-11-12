@@ -1,5 +1,6 @@
 package eu.dudko.create_whatt;
 
+import com.simibubi.create.content.trains.entity.Train;
 import eu.dudko.create_whatt.config.WhattConfigs;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -12,6 +13,8 @@ import java.util.function.Supplier;
 
 @Mod(value = CreateWhaTT.ID, dist = Dist.CLIENT)
 public class CreateWhaTTClient {
+
+    public static Train HOVERED_TRAIN = null;
 
     private final ModContainer container;
 

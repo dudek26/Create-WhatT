@@ -5,11 +5,14 @@ import com.simibubi.create.compat.trainmap.TrainMapManager;
 import com.simibubi.create.compat.trainmap.TrainMapSync;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.foundation.utility.CreateLang;
+import eu.dudko.create_whatt.CreateWhaTTClient;
 import eu.dudko.create_whatt.config.CClient;
 import eu.dudko.create_whatt.config.WhattConfigs;
 import eu.dudko.create_whatt.foundation.ProfileManager;
 import net.createmod.catnip.lang.LangBuilder;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import org.spongepowered.asm.mixin.Mixin;
@@ -50,5 +53,16 @@ public abstract class TrainMapManagerMixin {
 
         //noinspection DataFlowIssue
         CreateLang.text(train.id.toString()).color(ChatFormatting.DARK_GRAY.getColor()).addTo(output);
+    }
+
+    @Inject(method = "renderAndPick", at = @At("RETURN"))
+    private static void create_whatt$passHoveredTrain(GuiGraphics graphics, int mouseX, int mouseY, boolean linearFiltering, Rect2i bounds, CallbackInfoReturnable<List<FormattedText>> cir, @Local(
+            name = "hoveredElement") Object hoveredElement) {
+        if (hoveredElement instanceof Train train) {
+            CreateWhaTTClient.HOVERED_TRAIN = train;
+        }
+        else {
+            CreateWhaTTClient.HOVERED_TRAIN = null;
+        }
     }
 }
