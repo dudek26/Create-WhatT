@@ -1,0 +1,32 @@
+package eu.dudko.create_whatt.command.client;
+
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.simibubi.create.CreateClient;
+import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainTrackerMapElement;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.level.Level;
+
+public class TrainsClientCommand {
+
+    public static LiteralArgumentBuilder<CommandSourceStack> command() {
+        return Commands.literal("trains").executes(ctx -> {
+            MutableComponent message = Component.literal("Trains:");
+            CreateClient.RAILWAYS.trains.forEach((uuid, train) -> {
+                TrainTrackerMapElement wrapped = new TrainTrackerMapElement(train);
+                message.append(Component
+                        .literal("\n - ")
+                        .append(train.name)
+                        .append(" (" + uuid + ") at ")
+                        .append(wrapped.getPosition(Level.OVERWORLD).get().toShortString()));
+
+            });
+
+            ctx.getSource().sendSuccess(() -> message, true);
+            return 1;
+        });
+    }
+
+}
