@@ -1,6 +1,7 @@
 package eu.dudko.create_whatt.compat.xaeros.train_tracker;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.language.I18n;
 import xaero.map.element.MapElementReader;
 
 public class TrainTrackerMapElementReader extends MapElementReader<TrainTrackerMapElement, TrainTrackerMapElementRenderContext, TrainTrackerMapElementRenderer> {
@@ -65,8 +66,8 @@ public class TrainTrackerMapElementReader extends MapElementReader<TrainTrackerM
     }
 
     @Override
-    public int getLeftSideLength(TrainTrackerMapElement element, Minecraft var2) {
-        return 0;
+    public int getLeftSideLength(TrainTrackerMapElement element, Minecraft mc) {
+        return 9 + mc.font.width(I18n.get(element.getTrainNameString()));
     }
 
     @Override
