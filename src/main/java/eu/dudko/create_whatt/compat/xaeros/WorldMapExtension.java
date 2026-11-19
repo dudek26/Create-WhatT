@@ -1,15 +1,14 @@
 package eu.dudko.create_whatt.compat.xaeros;
 
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainTrackerMapElementRenderer;
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainTrackerMenuRenderer;
+import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElementRenderer;
+import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMenuRenderer;
 
 public class WorldMapExtension {
-    public static TrainTrackerMapElementRenderer trackedTrainsMapElementRenderer;
-    public static TrainTrackerMenuRenderer trackedTrainsMenuRenderer;
+    public static TrainMapElementRenderer trainsMapElementRenderer;
+    public static TrainMenuRenderer trainsMenuRenderer;
 
     public static void init() {
-        trackedTrainsMapElementRenderer = TrainTrackerMapElementRenderer.Builder.begin().build();
-        trackedTrainsMenuRenderer =
-                TrainTrackerMenuRenderer.Builder.begin().setRenderer(trackedTrainsMapElementRenderer).build();
+        trainsMapElementRenderer = TrainMapElementRenderer.Builder.begin().build();
+        trainsMenuRenderer = TrainMenuRenderer.Builder.begin().setRenderer(trainsMapElementRenderer).build();
     }
 }

@@ -9,9 +9,9 @@ import xaero.map.element.MapElementMenuRenderer;
 import xaero.map.element.MapElementRenderProvider;
 import xaero.map.element.render.ElementRenderer;
 
-public class TrainTrackerMenuRenderer extends MapElementMenuRenderer<TrainTrackerMapElement, TrainTrackerMenuRenderContext> {
+public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, TrainMenuRenderContext> {
 
-    public static final int TRAINS_BUTTON_X = 22;
+    public static final int TRAINS_BUTTON_X = 20;
     public static final int TRAINS_BUTTON_W = 20;
     public static final int TRAINS_BUTTON_H = 20;
     public static final ResourceLocation TRAINS_ICON_TEXTURE = Create.asResource("textures/gui/assemble.png");
@@ -19,9 +19,9 @@ public class TrainTrackerMenuRenderer extends MapElementMenuRenderer<TrainTracke
     public static final int TRAINS_ICON_TEXTURE_HEIGHT = 9;
     public static final int TRAINS_ICON_TEXTURE_X = 2;
     public static final int TRAINS_ICON_TEXTURE_Y = 205;
-    private final TrainTrackerMapElementRenderer renderer;
+    private final TrainMapElementRenderer renderer;
 
-    protected TrainTrackerMenuRenderer(TrainTrackerMapElementRenderer renderer, TrainTrackerMenuRenderContext context, MapElementRenderProvider<TrainTrackerMapElement, TrainTrackerMenuRenderContext> provider) {
+    protected TrainMenuRenderer(TrainMapElementRenderer renderer, TrainMenuRenderContext context, MapElementRenderProvider<TrainMapElement, TrainMenuRenderContext> provider) {
         super(context, provider);
         this.renderer = renderer;
     }
@@ -37,7 +37,7 @@ public class TrainTrackerMenuRenderer extends MapElementMenuRenderer<TrainTracke
     }
 
     @Override
-    protected ElementRenderer<? super TrainTrackerMapElement, ?, ?> getRenderer(TrainTrackerMapElement element) {
+    protected ElementRenderer<? super TrainMapElement, ?, ?> getRenderer(TrainMapElement element) {
         return this.renderer;
     }
 
@@ -52,7 +52,7 @@ public class TrainTrackerMenuRenderer extends MapElementMenuRenderer<TrainTracke
     }
 
     @Override
-    public void renderInMenu(TrainTrackerMapElement var1, GuiGraphics var2, Screen var3, int var4, int var5, double var6, boolean var8, boolean var9, Minecraft var10, boolean var11, int var12) {
+    public void renderInMenu(TrainMapElement var1, GuiGraphics var2, Screen var3, int var4, int var5, double var6, boolean var8, boolean var9, Minecraft var10, boolean var11, int var12) {
 
     }
 
@@ -66,12 +66,12 @@ public class TrainTrackerMenuRenderer extends MapElementMenuRenderer<TrainTracke
 
     }
 
-    public boolean canJumpTo(TrainTrackerMapElement element) {
+    public boolean canJumpTo(TrainMapElement element) {
         return this.renderer.getReader().isSameDimension(element);
     }
 
     public static final class Builder {
-        private TrainTrackerMapElementRenderer renderer;
+        private TrainMapElementRenderer renderer;
 
         private Builder() {
         }
@@ -81,19 +81,19 @@ public class TrainTrackerMenuRenderer extends MapElementMenuRenderer<TrainTracke
             return this;
         }
 
-        public Builder setRenderer(TrainTrackerMapElementRenderer renderer) {
+        public Builder setRenderer(TrainMapElementRenderer renderer) {
             this.renderer = renderer;
             return this;
         }
 
-        public TrainTrackerMenuRenderer build() {
+        public TrainMenuRenderer build() {
             if (this.renderer == null) {
                 throw new IllegalStateException();
             }
             else {
-                return new TrainTrackerMenuRenderer(this.renderer,
-                        new TrainTrackerMenuRenderContext(),
-                        new TrainTrackerMapElementRenderProvider<>());
+                return new TrainMenuRenderer(this.renderer,
+                        new TrainMenuRenderContext(),
+                        new TrainMapElementRenderProvider<>());
             }
         }
 

@@ -5,15 +5,15 @@ import xaero.map.element.render.ElementRenderLocation;
 
 import java.util.Iterator;
 
-public class TrainTrackerMapElementRenderProvider<C> extends MapElementRenderProvider<TrainTrackerMapElement, C> {
-    private Iterator<TrainTrackerMapElement> iterator;
+public class TrainMapElementRenderProvider<C> extends MapElementRenderProvider<TrainMapElement, C> {
+    private Iterator<TrainMapElement> iterator;
 
-    public TrainTrackerMapElementRenderProvider() {
+    public TrainMapElementRenderProvider() {
     }
 
     @Override
     public void begin(ElementRenderLocation location, C context) {
-        this.iterator = TrainTrackerMapElementCollector.getElements().iterator();
+        this.iterator = TrainMapElementCollector.getElements().iterator();
     }
 
     @Override
@@ -22,13 +22,13 @@ public class TrainTrackerMapElementRenderProvider<C> extends MapElementRenderPro
     }
 
     @Override
-    public TrainTrackerMapElement getNext(ElementRenderLocation location, C context) {
+    public TrainMapElement getNext(ElementRenderLocation location, C context) {
         return this.iterator.next();
     }
 
     @Deprecated
     @Override
-    public TrainTrackerMapElement setupContextAndGetNext(ElementRenderLocation location, C context) {
+    public TrainMapElement setupContextAndGetNext(ElementRenderLocation location, C context) {
         return this.getNext(location, context);
     }
 
@@ -51,13 +51,13 @@ public class TrainTrackerMapElementRenderProvider<C> extends MapElementRenderPro
 
     @Deprecated
     @Override
-    public TrainTrackerMapElement getNext(int location, C context) {
+    public TrainMapElement getNext(int location, C context) {
         return this.getNext(ElementRenderLocation.fromIndex(location), context);
     }
 
     @Deprecated
     @Override
-    public TrainTrackerMapElement setupContextAndGetNext(int location, C context) {
+    public TrainMapElement setupContextAndGetNext(int location, C context) {
         return this.setupContextAndGetNext(ElementRenderLocation.fromIndex(location), context);
     }
 

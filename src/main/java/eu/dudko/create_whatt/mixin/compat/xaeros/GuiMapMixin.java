@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.content.trains.entity.Train;
 import eu.dudko.create_whatt.CreateWhaTTClient;
 import eu.dudko.create_whatt.compat.xaeros.WorldMapExtension;
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainTrackerMapElement;
+import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -40,7 +40,7 @@ import xaero.map.world.MapDimension;
 
 import java.util.ArrayList;
 
-import static eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainTrackerMenuRenderer.*;
+import static eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMenuRenderer.*;
 
 @Mixin(value = GuiMap.class)
 public abstract class GuiMapMixin extends ScreenBase implements IRightClickableElement {
@@ -102,10 +102,7 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                                 this::create_whatt$onTrainsButton,
                                 () -> trainsTooltip));
 
-        WorldMapExtension.trackedTrainsMenuRenderer.onMapInit(create_whatt$self(),
-                this.minecraft,
-                this.width,
-                this.height);
+        WorldMapExtension.trainsMenuRenderer.onMapInit(create_whatt$self(), this.minecraft, this.width, this.height);
     }
 
     @Inject(method = "render",
@@ -119,7 +116,7 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
         if (this.create_whatt$trainsMenu) {
             HoveredMapElementHolder<?, ?>
                     hovered =
-                    WorldMapExtension.trackedTrainsMenuRenderer.renderMenu(guiGraphics,
+                    WorldMapExtension.trainsMenuRenderer.renderMenu(guiGraphics,
                             (GuiMap) (Object) this,
                             this.scale,
                             this.width,
@@ -137,10 +134,10 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                     this.viewedInList = true;
                 }
 
-                if (hovered.getElement() instanceof TrainTrackerMapElement element
-                        && WorldMapExtension.trackedTrainsMenuRenderer.canJumpTo(element)
+                if (hovered.getElement() instanceof TrainMapElement element
+                        && WorldMapExtension.trainsMenuRenderer.canJumpTo(element)
                         && this.leftMouseButton.clicked) {
-                    TrainTrackerMapElement clickedTrain = (TrainTrackerMapElement) this.viewed.getElement();
+                    TrainMapElement clickedTrain = (TrainMapElement) this.viewed.getElement();
                     ResourceKey<Level> clickedTrainDim = clickedTrain.getDimensions().getFirst();
                     MapDimension clickedTrainMapDim = this.mapProcessor.getMapWorld().getDimension(clickedTrainDim);
                     DimensionType
@@ -171,7 +168,7 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
     @Inject(method = "renderPreDropdown", at = @At("RETURN"))
     public void create_whatt$trainsPreDropdown(GuiGraphics guiGraphics, int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci) {
         if (this.create_whatt$trainsMenu) {
-            WorldMapExtension.trackedTrainsMenuRenderer.postMapRender(guiGraphics,
+            WorldMapExtension.trainsMenuRenderer.postMapRender(guiGraphics,
                     (GuiMap) (Object) this,
                     scaledMouseX,
                     scaledMouseY,

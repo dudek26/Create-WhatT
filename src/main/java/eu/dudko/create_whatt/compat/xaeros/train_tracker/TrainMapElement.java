@@ -14,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class TrainTrackerMapElement {
+public class TrainMapElement {
 
     private final Train train;
 
-    public TrainTrackerMapElement(Train train) {
+    public TrainMapElement(Train train) {
         this.train = train;
     }
 

@@ -10,16 +10,16 @@ import xaero.map.element.MapElementRenderer;
 import xaero.map.element.render.ElementRenderInfo;
 import xaero.map.graphics.renderer.multitexture.MultiTextureRenderTypeRendererProvider;
 
-public class TrainTrackerMapElementRenderer extends MapElementRenderer<TrainTrackerMapElement, TrainTrackerMapElementRenderContext, TrainTrackerMapElementRenderer> {
+public class TrainMapElementRenderer extends MapElementRenderer<TrainMapElement, TrainMapElementRenderContext, TrainMapElementRenderer> {
 
-    protected TrainTrackerMapElementRenderer(TrainTrackerMapElementRenderContext context, MapElementRenderProvider<TrainTrackerMapElement, TrainTrackerMapElementRenderContext> provider, TrainTrackerMapElementReader reader) {
+    protected TrainMapElementRenderer(TrainMapElementRenderContext context, MapElementRenderProvider<TrainMapElement, TrainMapElementRenderContext> provider, TrainMapElementReader reader) {
         super(context, provider, reader);
     }
 
     @Override
     @Deprecated
-    public TrainTrackerMapElementReader getReader() {
-        return (TrainTrackerMapElementReader) super.getReader();
+    public TrainMapElementReader getReader() {
+        return (TrainMapElementReader) super.getReader();
     }
 
     @Override
@@ -33,7 +33,7 @@ public class TrainTrackerMapElementRenderer extends MapElementRenderer<TrainTrac
     }
 
     @Override
-    public void renderElementShadow(TrainTrackerMapElement element, boolean hovered, float optionalScale, double partialX, double partialY, ElementRenderInfo renderInfo, GuiGraphics guiGraphics, MultiBufferSource.BufferSource vanillaBufferSource, MultiTextureRenderTypeRendererProvider rendererProvider) {
+    public void renderElementShadow(TrainMapElement element, boolean hovered, float optionalScale, double partialX, double partialY, ElementRenderInfo renderInfo, GuiGraphics guiGraphics, MultiBufferSource.BufferSource vanillaBufferSource, MultiTextureRenderTypeRendererProvider rendererProvider) {
         super.renderElementShadow(element,
                 hovered,
                 optionalScale,
@@ -46,7 +46,7 @@ public class TrainTrackerMapElementRenderer extends MapElementRenderer<TrainTrac
     }
 
     @Override
-    public boolean renderElement(TrainTrackerMapElement element, boolean hovered, double optionalDepth, float optionalScale, double partialX, double partialY, ElementRenderInfo renderInfo, GuiGraphics guiGraphics, MultiBufferSource.BufferSource vanillaBufferSource, MultiTextureRenderTypeRendererProvider rendererProvider) {
+    public boolean renderElement(TrainMapElement element, boolean hovered, double optionalDepth, float optionalScale, double partialX, double partialY, ElementRenderInfo renderInfo, GuiGraphics guiGraphics, MultiBufferSource.BufferSource vanillaBufferSource, MultiTextureRenderTypeRendererProvider rendererProvider) {
         return super.renderElement(element,
                 hovered,
                 optionalDepth,
@@ -72,7 +72,7 @@ public class TrainTrackerMapElementRenderer extends MapElementRenderer<TrainTrac
     }
 
     @Deprecated
-    public void renderElementPre(int location, TrainTrackerMapElement element, boolean hovered, Minecraft mc, GuiGraphics guiGraphics, double cameraX, double cameraZ, double mouseX, double mouseZ, float brightness, double scale, double screenSizeBasedScale, TextureManager textureManager, Font fontRenderer, MultiBufferSource.BufferSource vanillaBufferSource, MultiTextureRenderTypeRendererProvider rendererProvider, float optionalScale, double partialX, double partialY, boolean cave, float partialTicks) {
+    public void renderElementPre(int location, TrainMapElement element, boolean hovered, Minecraft mc, GuiGraphics guiGraphics, double cameraX, double cameraZ, double mouseX, double mouseZ, float brightness, double scale, double screenSizeBasedScale, TextureManager textureManager, Font fontRenderer, MultiBufferSource.BufferSource vanillaBufferSource, MultiTextureRenderTypeRendererProvider rendererProvider, float optionalScale, double partialX, double partialY, boolean cave, float partialTicks) {
         this.renderElementShadow(element,
                 hovered,
                 optionalScale,
@@ -85,7 +85,7 @@ public class TrainTrackerMapElementRenderer extends MapElementRenderer<TrainTrac
     }
 
     @Deprecated
-    public boolean renderElement(int location, TrainTrackerMapElement element, boolean hovered, Minecraft mc, GuiGraphics guiGraphics, double cameraX, double cameraZ, double mouseX, double mouseZ, float brightness, double scale, double screenSizeBasedScale, TextureManager textureManager, Font fontRenderer, MultiBufferSource.BufferSource vanillaBufferSource, MultiTextureRenderTypeRendererProvider rendererProvider, int elementIndex, double optionalDepth, float optionalScale, double partialX, double partialY, boolean cave, float partialTicks) {
+    public boolean renderElement(int location, TrainMapElement element, boolean hovered, Minecraft mc, GuiGraphics guiGraphics, double cameraX, double cameraZ, double mouseX, double mouseZ, float brightness, double scale, double screenSizeBasedScale, TextureManager textureManager, Font fontRenderer, MultiBufferSource.BufferSource vanillaBufferSource, MultiTextureRenderTypeRendererProvider rendererProvider, int elementIndex, double optionalDepth, float optionalScale, double partialX, double partialY, boolean cave, float partialTicks) {
         return this.renderElement(element,
                 hovered,
                 optionalDepth,
@@ -116,10 +116,10 @@ public class TrainTrackerMapElementRenderer extends MapElementRenderer<TrainTrac
             return this;
         }
 
-        public TrainTrackerMapElementRenderer build() {
-            return new TrainTrackerMapElementRenderer(new TrainTrackerMapElementRenderContext(),
-                    new TrainTrackerMapElementRenderProvider<>(),
-                    new TrainTrackerMapElementReader());
+        public TrainMapElementRenderer build() {
+            return new TrainMapElementRenderer(new TrainMapElementRenderContext(),
+                    new TrainMapElementRenderProvider<>(),
+                    new TrainMapElementReader());
         }
 
         public static Builder begin() {

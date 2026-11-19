@@ -2,7 +2,7 @@ package eu.dudko.create_whatt.command.client;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.simibubi.create.CreateClient;
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainTrackerMapElement;
+import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElement;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -14,7 +14,7 @@ public class TrainsClientCommand {
         return Commands.literal("trains").executes(ctx -> {
             MutableComponent message = Component.literal("Trains:");
             CreateClient.RAILWAYS.trains.forEach((uuid, train) -> {
-                TrainTrackerMapElement wrapped = new TrainTrackerMapElement(train);
+                TrainMapElement wrapped = new TrainMapElement(train);
                 message.append(Component
                         .literal("\n - ")
                         .append(train.name)

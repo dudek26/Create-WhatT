@@ -1,3 +1,6 @@
 {
-  "gui.xaero_whatt_copy_train_uuid": "Copy Train UUID"
+  "gui.xaero_whatt_copy_train_uuid": "Copy Train UUID",
+  "gui.xaero_whatt_filter_trains_by_name": "Filter Trains...",
+  "gui.xaero_whatt_box_open_trains": "Open trains menu",
+  "gui.xaero_whatt_box_close_trains": "Close trains menu"
 }
