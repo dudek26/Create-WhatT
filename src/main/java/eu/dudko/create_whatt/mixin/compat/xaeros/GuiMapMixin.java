@@ -40,6 +40,8 @@ import xaero.map.world.MapDimension;
 
 import java.util.ArrayList;
 
+import static eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainTrackerMenuRenderer.*;
+
 @Mixin(value = GuiMap.class)
 public abstract class GuiMapMixin extends ScreenBase implements IRightClickableElement {
 
@@ -88,15 +90,15 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                             "gui.xaero_whatt_box_open_trains");
         this.addButton(
                 this.create_whatt$trainsButton =
-                        new GuiTexturedButton(20,
-                                60,
-                                20,
-                                20,
-                                197,
-                                32,
-                                16,
-                                16,
-                                WorldMap.guiTextures,
+                        new GuiTexturedButton(this.width - TRAINS_BUTTON_X,
+                                create_whatt$findTrainsButtonTop(),
+                                TRAINS_BUTTON_W,
+                                TRAINS_BUTTON_H,
+                                TRAINS_ICON_TEXTURE_X,
+                                TRAINS_ICON_TEXTURE_Y,
+                                TRAINS_ICON_TEXTURE_WIDTH,
+                                TRAINS_ICON_TEXTURE_HEIGHT,
+                                TRAINS_ICON_TEXTURE,
                                 this::create_whatt$onTrainsButton,
                                 () -> trainsTooltip));
 
@@ -106,7 +108,11 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                 this.height);
     }
 
-    @Inject(method = "render", at = @At("RETURN"))
+    @Inject(method = "render",
+            at = @At(value = "INVOKE",
+                    target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V",
+                    ordinal = 9,
+                    shift = At.Shift.AFTER))
     public void create_whatt$renderTrainsMenu(CallbackInfo ci, @Local(argsOnly = true) GuiGraphics guiGraphics, @Local(
             name = "scaledMouseX") int scaledMouseX, @Local(name = "scaledMouseY") int scaledMouseY, @Local(name = "mc") Minecraft mc) {
         this.create_whatt$overTrainsMenu = false;
@@ -219,6 +225,19 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
         this.create_whatt$toggleTrainsMenu();
         this.init(this.minecraft, this.width, this.height);
         this.setFocused(this.create_whatt$trainsButton);
+    }
+
+    @Unique
+    private int create_whatt$findTrainsButtonTop() {
+        int topmostRightButton = this.height;
+        for (Renderable renderable : renderables) {
+            if (renderable instanceof Button button
+                    && button.getX() == this.width - TRAINS_BUTTON_W
+                    && button.getY() >= this.height / 2) {
+                topmostRightButton = Math.min(topmostRightButton, button.getY());
+            }
+        }
+        return Math.max(0, topmostRightButton - TRAINS_BUTTON_W);
     }
 
     @Unique
