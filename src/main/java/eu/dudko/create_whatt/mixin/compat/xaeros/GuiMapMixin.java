@@ -155,8 +155,8 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                                     .getCurrentDimension()
                                     .calculateDimDiv(this.mapProcessor.getWorldDimensionTypeRegistry(),
                                             clickedTrainDimType);
-                    double jumpX = clickedTrain.getX(clickedTrainDim) / clickedTrainDimDiv;
-                    double jumpZ = clickedTrain.getZ(clickedTrainDim) / clickedTrainDimDiv;
+                    double jumpX = clickedTrain.getX() / clickedTrainDimDiv;
+                    double jumpZ = clickedTrain.getZ() / clickedTrainDimDiv;
                     this.cameraDestination = new int[]{(int) jumpX, (int) jumpZ};
                     this.leftMouseButton.isDown = false;
                     if (attachedCamera) {
