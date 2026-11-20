@@ -72,6 +72,18 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
     private static boolean attachedCamera;
     @Shadow
     public boolean shouldReinit;
+    @Shadow
+    public boolean playersMenu;
+
+    @Shadow
+    protected abstract void togglePlayerMenu();
+
+    @Shadow
+    public boolean waypointMenu;
+
+    @Shadow
+    protected abstract void toggleWaypointMenu();
+
     @Unique
     private boolean create_whatt$trainsMenu = false;
     @Unique
@@ -187,29 +199,60 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
         return original || this.create_whatt$trainsMenu;
     }
 
-    // END: Train Tracker
-
-    // START: Right Click Options
-
-    @Inject(method = "getRightClickOptions",
-            at = @At(value = "INVOKE",
-                    target = "Lxaero/map/util/DistanceUtils;addDistanceRightClickOption(DDDZLxaero/map/gui/IRightClickableElement;Lnet/minecraft/world/entity/Entity;FLxaero/lib/client/config/ClientConfigManager;Ljava/util/ArrayList;)V"))
-    public void create_whatt$addTrainOptions(CallbackInfoReturnable<ArrayList<RightClickOption>> cir, @Local(name = "options") ArrayList<RightClickOption> options) {
-        final Train hoveredTrain = CreateWhaTTClient.HOVERED_TRAIN;
-        if (hoveredTrain != null) {
-            options.add(new RightClickOption("gui.xaero_whatt_copy_train_uuid", options.size(), this) {
-                @Override
-                public void onAction(Screen screen) {
-                    Minecraft.getInstance().keyboardHandler.setClipboard(hoveredTrain.id.toString());
-                }
-            });
+    @Inject(method = "mouseScrolled", at = @At("HEAD"), cancellable = true)
+    private void create_whatt$scrollTrainsMenu(double par1, double par2, double g, double wheel, CallbackInfoReturnable<Boolean> cir) {
+        int direction = wheel > 0.0 ? 1 : -1;
+        if (this.create_whatt$trainsMenu && this.create_whatt$overTrainsMenu) {
+            WorldMapExtension.trainsMenuRenderer.mouseScrolled(direction);
+            cir.setReturnValue(super.mouseScrolled(par1, par2, g, wheel));
         }
     }
 
-    // END: Right Click Options
+    @Inject(method = {"toggleWaypointMenu", "togglePlayerMenu"}, at = @At("HEAD"))
+    private void create_whatt$toggleMenus(CallbackInfo ci) {
+        if (this.create_whatt$trainsMenu) {
+            this.create_whatt$toggleTrainsMenu();
+        }
+    }
+
+    @Inject(method = "mouseReleased", at = @At("HEAD"))
+    private void create_whatt$trainsMouseReleased(double par1, double par2, int par3, CallbackInfoReturnable<Boolean> cir) {
+        if (this.create_whatt$trainsMenu) {
+            WorldMapExtension.trainsMenuRenderer.onMapMouseRelease(par1, par2, par3);
+        }
+    }
+
+    @Inject(method = "unfocusAll", at = @At("HEAD"))
+    private void create_whatt$unfocusAll(CallbackInfo ci) {
+        WorldMapExtension.trainsMenuRenderer.unfocusAll();
+    }
+
+    @Inject(method = "charTyped", at = @At("HEAD"), cancellable = true)
+    private void create_whatt$charTyped(char par1, int par2, CallbackInfoReturnable<Boolean> cir) {
+        if (this.create_whatt$trainsMenu && WorldMapExtension.trainsMenuRenderer.charTyped()) {
+            super.charTyped(par1, par2);
+            cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "keyPressed", at = @At(value = "RETURN", ordinal = 3), cancellable = true)
+    private void create_whatt$keyPressed(int par1, int par2, int par3, CallbackInfoReturnable<Boolean> cir) {
+        if (this.create_whatt$trainsMenu && WorldMapExtension.trainsMenuRenderer.keyPressed(create_whatt$self(),
+                par1)) {
+            cir.setReturnValue(true);
+        }
+    }
 
     @Unique
     private void create_whatt$toggleTrainsMenu() {
+        if (this.playersMenu) {
+            this.togglePlayerMenu();
+        }
+
+        if (this.waypointMenu) {
+            this.toggleWaypointMenu();
+        }
+
         this.create_whatt$trainsMenu = !this.create_whatt$trainsMenu;
         if (!this.create_whatt$trainsMenu) {
             WorldMap.trackedPlayerMenuRenderer.onMenuClosed();
@@ -236,6 +279,27 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
         }
         return Math.max(0, topmostRightButton - TRAINS_BUTTON_W);
     }
+
+    // END: Train Tracker
+
+    // START: Right Click Options
+
+    @Inject(method = "getRightClickOptions",
+            at = @At(value = "INVOKE",
+                    target = "Lxaero/map/util/DistanceUtils;addDistanceRightClickOption(DDDZLxaero/map/gui/IRightClickableElement;Lnet/minecraft/world/entity/Entity;FLxaero/lib/client/config/ClientConfigManager;Ljava/util/ArrayList;)V"))
+    public void create_whatt$addTrainOptions(CallbackInfoReturnable<ArrayList<RightClickOption>> cir, @Local(name = "options") ArrayList<RightClickOption> options) {
+        final Train hoveredTrain = CreateWhaTTClient.HOVERED_TRAIN;
+        if (hoveredTrain != null) {
+            options.add(new RightClickOption("gui.xaero_whatt_copy_train_uuid", options.size(), this) {
+                @Override
+                public void onAction(Screen screen) {
+                    Minecraft.getInstance().keyboardHandler.setClipboard(hoveredTrain.id.toString());
+                }
+            });
+        }
+    }
+
+    // END: Right Click Options
 
     @Unique
     private GuiMap create_whatt$self() {
