@@ -1,6 +1,6 @@
 package eu.dudko.create_whatt.compat.xaeros.train_tracker;
 
-import com.simibubi.create.Create;
+import eu.dudko.create_whatt.CreateWhaTT;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -14,11 +14,11 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
     public static final int TRAINS_BUTTON_X = 20;
     public static final int TRAINS_BUTTON_W = 20;
     public static final int TRAINS_BUTTON_H = 20;
-    public static final ResourceLocation TRAINS_ICON_TEXTURE = Create.asResource("textures/gui/assemble.png");
-    public static final int TRAINS_ICON_TEXTURE_WIDTH = 19;
-    public static final int TRAINS_ICON_TEXTURE_HEIGHT = 9;
-    public static final int TRAINS_ICON_TEXTURE_X = 2;
-    public static final int TRAINS_ICON_TEXTURE_Y = 205;
+    public static final ResourceLocation TRAINS_ICON_TEXTURE = CreateWhaTT.id("textures/gui/xaero.png");
+    public static final int TRAINS_ICON_TEXTURE_WIDTH = 16;
+    public static final int TRAINS_ICON_TEXTURE_HEIGHT = 11;
+    public static final int TRAINS_ICON_TEXTURE_X = 0;
+    public static final int TRAINS_ICON_TEXTURE_Y = 0;
     private final TrainMapElementRenderer renderer;
 
     protected TrainMenuRenderer(TrainMapElementRenderer renderer, TrainMenuRenderContext context, MapElementRenderProvider<TrainMapElement, TrainMenuRenderContext> provider) {

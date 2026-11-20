@@ -19,7 +19,7 @@ public class CreateWhaTT {
     }
 
     public static ResourceLocation id(String key) {
-        return ResourceLocation.fromNamespaceAndPath(CreateWhaTT.ID, key);
+        return ResourceLocation.fromNamespaceAndPath(ID, key);
     }
 
 }
