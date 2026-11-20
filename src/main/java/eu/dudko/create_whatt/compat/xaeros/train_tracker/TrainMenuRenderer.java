@@ -19,11 +19,14 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
     public static final int TRAINS_ICON_TEXTURE_HEIGHT = 11;
     public static final int TRAINS_ICON_TEXTURE_X = 0;
     public static final int TRAINS_ICON_TEXTURE_Y = 0;
+
+    private final TrainIconRenderer iconRenderer;
     private final TrainMapElementRenderer renderer;
 
-    protected TrainMenuRenderer(TrainMapElementRenderer renderer, TrainMenuRenderContext context, MapElementRenderProvider<TrainMapElement, TrainMenuRenderContext> provider) {
+    protected TrainMenuRenderer(TrainMapElementRenderer renderer, TrainMenuRenderContext context, MapElementRenderProvider<TrainMapElement, TrainMenuRenderContext> provider, TrainIconRenderer iconRenderer) {
         super(context, provider);
         this.renderer = renderer;
+        this.iconRenderer = iconRenderer;
     }
 
     @Override
@@ -52,8 +55,8 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
     }
 
     @Override
-    public void renderInMenu(TrainMapElement var1, GuiGraphics var2, Screen var3, int var4, int var5, double var6, boolean var8, boolean var9, Minecraft var10, boolean var11, int var12) {
-
+    public void renderInMenu(TrainMapElement element, GuiGraphics guiGraphics, Screen gui, int mouseX, int mouseY, double scale, boolean enabled, boolean hovered, Minecraft mc, boolean pressed, int textX) {
+        this.iconRenderer.renderIcon(guiGraphics, element.getTrain());
     }
 
     @Override
@@ -93,7 +96,8 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
             else {
                 return new TrainMenuRenderer(this.renderer,
                         new TrainMenuRenderContext(),
-                        new TrainMapElementRenderProvider<>());
+                        new TrainMapElementRenderProvider<>(),
+                        new TrainIconRenderer());
             }
         }
 
