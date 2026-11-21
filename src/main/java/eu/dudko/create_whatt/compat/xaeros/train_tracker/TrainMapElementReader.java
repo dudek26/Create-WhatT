@@ -3,6 +3,8 @@ package eu.dudko.create_whatt.compat.xaeros.train_tracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import xaero.map.element.MapElementReader;
+import xaero.map.world.MapDimension;
+import xaero.map.world.MapWorld;
 
 public class TrainMapElementReader extends MapElementReader<TrainMapElement, TrainMapElementRenderContext, TrainMapElementRenderer> {
 
@@ -11,8 +13,10 @@ public class TrainMapElementReader extends MapElementReader<TrainMapElement, Tra
         return true;
     }
 
-    public boolean isSameDimension(TrainMapElement element) {
-        return element.isInDimension(Minecraft.getInstance().level.dimension());
+    public boolean isSameDimension(TrainMapElement element, MapWorld mapWorld) {
+        MapDimension currentDimension = mapWorld.getCurrentDimension();
+        MapDimension trainDimension = mapWorld.getDimension(element.getDimensions().getFirst());
+        return currentDimension == trainDimension;
     }
 
     @Override

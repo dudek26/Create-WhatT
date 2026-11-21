@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import xaero.map.element.MapElementMenuRenderer;
 import xaero.map.element.MapElementRenderProvider;
 import xaero.map.element.render.ElementRenderer;
+import xaero.map.world.MapWorld;
 
 public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, TrainMenuRenderContext> {
 
@@ -69,8 +70,8 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
 
     }
 
-    public boolean canJumpTo(TrainMapElement element) {
-        return this.renderer.getReader().isSameDimension(element);
+    public boolean canJumpTo(TrainMapElement element, MapWorld mapWorld) {
+        return this.renderer.getReader().isSameDimension(element, mapWorld);
     }
 
     public static final class Builder {

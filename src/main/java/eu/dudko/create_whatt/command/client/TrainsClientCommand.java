@@ -19,7 +19,7 @@ public class TrainsClientCommand {
                         .literal("\n - ")
                         .append(train.name)
                         .append(" (" + uuid + ") at ")
-                        .append(wrapped.getPosition().toString()));
+                        .append(wrapped.getPosition(false).toString()));
 
             });
 

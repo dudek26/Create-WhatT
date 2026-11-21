@@ -148,7 +148,7 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                 }
 
                 if (hovered.getElement() instanceof TrainMapElement element
-                        && WorldMapExtension.trainsMenuRenderer.canJumpTo(element)
+                        && WorldMapExtension.trainsMenuRenderer.canJumpTo(element, this.mapProcessor.getMapWorld())
                         && this.leftMouseButton.clicked) {
                     TrainMapElement clickedTrain = (TrainMapElement) this.viewed.getElement();
                     ResourceKey<Level> clickedTrainDim = clickedTrain.getDimensions().getFirst();
@@ -166,13 +166,13 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                                     .calculateDimDiv(this.mapProcessor.getWorldDimensionTypeRegistry(),
                                             clickedTrainDimType);
                     CreateWhaTT.LOGGER.info("clicked train: {} / {}\ndim: div: {}, current: {}, clickedTrainDim: {}",
-                            clickedTrain.getX(),
-                            clickedTrain.getZ(),
+                            clickedTrain.getX(false),
+                            clickedTrain.getZ(false),
                             clickedTrainDimDiv,
                             this.mapProcessor.getMapWorld().getCurrentDimension().getDimId(),
                             clickedTrainMapDim.getDimId());
-                    double jumpX = clickedTrain.getX() / clickedTrainDimDiv;
-                    double jumpZ = clickedTrain.getZ() / clickedTrainDimDiv;
+                    double jumpX = clickedTrain.getX(false) / clickedTrainDimDiv;
+                    double jumpZ = clickedTrain.getZ(false) / clickedTrainDimDiv;
                     this.cameraDestination = new int[]{(int) jumpX, (int) jumpZ};
                     this.leftMouseButton.isDown = false;
                     if (attachedCamera) {

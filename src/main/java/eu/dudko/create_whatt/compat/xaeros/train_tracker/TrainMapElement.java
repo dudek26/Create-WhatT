@@ -35,19 +35,22 @@ public class TrainMapElement {
         return train.id;
     }
 
-    public double getX() {
-        return getPosition().x();
+    public double getX(boolean fromFirstCarriage) {
+        return getPosition(fromFirstCarriage).x();
     }
 
-    public double getY() {
-        return getPosition().y();
+    public double getY(boolean fromFirstCarriage) {
+        return getPosition(fromFirstCarriage).y();
     }
 
-    public double getZ() {
-        return getPosition().z();
+    public double getZ(boolean fromFirstCarriage) {
+        return getPosition(fromFirstCarriage).z();
     }
 
-    public Vec3 getPosition() {
+    /**
+     * @param fromFirstCarriage true will return the position of the first bogey in the first assembled carriage, false may return the position of the last bogey in the last carriage, if the train is driving backwards
+     */
+    public Vec3 getPosition(boolean fromFirstCarriage) {
         return getTrainSyncEntry().map(entry -> {
             double time = AnimationTickHolder.getTicks();
             time += AnimationTickHolder.getPartialTicks();
@@ -55,7 +58,13 @@ public class TrainMapElement {
             time /= TrainMapSync.lightPacketInterval;
             time = Mth.clamp(time, 0, 1);
 
-            return entry.getPosition(0, true, time);
+            if (fromFirstCarriage) {
+                return entry.getPosition(0, true, time);
+            }
+
+            boolean backwards = entry.backwards;
+            return entry.getPosition(backwards ? train.carriages.size() - 1 : 0, !backwards, time);
+
         }).orElse(new Vec3(0, 0, 0));
     }
 
