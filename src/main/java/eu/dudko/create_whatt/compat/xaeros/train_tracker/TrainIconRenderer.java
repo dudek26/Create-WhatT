@@ -3,6 +3,7 @@ package eu.dudko.create_whatt.compat.xaeros.train_tracker;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.simibubi.create.compat.trainmap.TrainMapSync;
+import com.simibubi.create.compat.trainmap.TrainMapSync.TrainMapSyncEntry;
 import com.simibubi.create.compat.trainmap.TrainMapSyncClient;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
@@ -10,6 +11,7 @@ import net.createmod.catnip.animation.AnimationTickHolder;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 import xaero.lib.client.graphics.XaeroRenderType;
 import xaero.lib.client.graphics.shader.LibShaders;
 import xaero.map.graphics.MapRenderHelper;
@@ -25,16 +27,23 @@ public class TrainIconRenderer {
         time /= TrainMapSync.lightPacketInterval;
         time = Mth.clamp(time, 0, 1);
 
-        TrainMapSync.TrainMapSyncEntry trainEntry = TrainMapSyncClient.currentData.get(train.id);
+        @Nullable TrainMapSyncEntry trainEntry = TrainMapSyncClient.currentData.get(train.id);
 
-        Vec3 pos1 = trainEntry.getPosition(0, true, time);
-        Vec3 pos2 = trainEntry.getPosition(0, false, time);
+        Vec3 pos1, pos2;
+
+        if (trainEntry == null) {
+            pos1 = pos2 = new Vec3(0.0, 0.0, 0.0);
+        }
+        else {
+            pos1 = trainEntry.getPosition(0, true, time);
+            pos2 = trainEntry.getPosition(0, false, time);
+        }
 
         Vec3 diff = pos2.subtract(pos1);
 
         int rotation = Mth.positiveModulo(Mth.floor(0.5 + (Math.atan2(diff.x, diff.z) * Mth.RAD_TO_DEG) / 22.5), 8);
 
-        if (trainEntry.state == TrainMapSync.TrainState.DERAILED)
+        if (trainEntry != null && trainEntry.state == TrainMapSync.TrainState.DERAILED)
             rotation = Mth.positiveModulo((AnimationTickHolder.getTicks() / 8), 8);
 
         int trainColorIndex = train.mapColorIndex;

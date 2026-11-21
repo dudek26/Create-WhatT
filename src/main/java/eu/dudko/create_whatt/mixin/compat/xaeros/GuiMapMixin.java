@@ -3,6 +3,7 @@ package eu.dudko.create_whatt.mixin.compat.xaeros;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.content.trains.entity.Train;
+import eu.dudko.create_whatt.CreateWhaTT;
 import eu.dudko.create_whatt.CreateWhaTTClient;
 import eu.dudko.create_whatt.compat.xaeros.WorldMapExtension;
 import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElement;
@@ -164,6 +165,12 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                                     .getCurrentDimension()
                                     .calculateDimDiv(this.mapProcessor.getWorldDimensionTypeRegistry(),
                                             clickedTrainDimType);
+                    CreateWhaTT.LOGGER.info("clicked train: {} / {}\ndim: div: {}, current: {}, clickedTrainDim: {}",
+                            clickedTrain.getX(),
+                            clickedTrain.getZ(),
+                            clickedTrainDimDiv,
+                            this.mapProcessor.getMapWorld().getCurrentDimension().getDimId(),
+                            clickedTrainMapDim.getDimId());
                     double jumpX = clickedTrain.getX() / clickedTrainDimDiv;
                     double jumpZ = clickedTrain.getZ() / clickedTrainDimDiv;
                     this.cameraDestination = new int[]{(int) jumpX, (int) jumpZ};

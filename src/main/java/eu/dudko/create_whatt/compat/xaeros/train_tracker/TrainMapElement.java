@@ -26,6 +26,7 @@ public class TrainMapElement {
         return train.name.getString();
     }
 
+    @Nullable
     public TrainMapSyncEntry getTrainSyncEntry() {
         return TrainMapSyncClient.currentData.get(train.id);
     }
@@ -47,13 +48,18 @@ public class TrainMapElement {
     }
 
     public Vec3 getPosition() {
+        TrainMapSyncEntry entry = getTrainSyncEntry();
+        if (entry == null) {
+            return new Vec3(0, 0, 0);
+        }
+
         double time = AnimationTickHolder.getTicks();
         time += AnimationTickHolder.getPartialTicks();
         time -= TrainMapSyncClient.lastPacket;
         time /= TrainMapSync.lightPacketInterval;
         time = Mth.clamp(time, 0, 1);
 
-        return getTrainSyncEntry().getPosition(0, true, time);
+        return entry.getPosition(0, true, time);
 
     }
 
