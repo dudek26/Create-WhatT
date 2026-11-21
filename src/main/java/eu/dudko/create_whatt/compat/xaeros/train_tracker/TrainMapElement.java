@@ -12,6 +12,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class TrainMapElement {
@@ -26,9 +27,8 @@ public class TrainMapElement {
         return train.name.getString();
     }
 
-    @Nullable
-    public TrainMapSyncEntry getTrainSyncEntry() {
-        return TrainMapSyncClient.currentData.get(train.id);
+    public Optional<TrainMapSyncEntry> getTrainSyncEntry() {
+        return Optional.ofNullable(TrainMapSyncClient.currentData.get(train.id));
     }
 
     public UUID getTrainId() {
@@ -48,19 +48,15 @@ public class TrainMapElement {
     }
 
     public Vec3 getPosition() {
-        TrainMapSyncEntry entry = getTrainSyncEntry();
-        if (entry == null) {
-            return new Vec3(0, 0, 0);
-        }
+        return getTrainSyncEntry().map(entry -> {
+            double time = AnimationTickHolder.getTicks();
+            time += AnimationTickHolder.getPartialTicks();
+            time -= TrainMapSyncClient.lastPacket;
+            time /= TrainMapSync.lightPacketInterval;
+            time = Mth.clamp(time, 0, 1);
 
-        double time = AnimationTickHolder.getTicks();
-        time += AnimationTickHolder.getPartialTicks();
-        time -= TrainMapSyncClient.lastPacket;
-        time /= TrainMapSync.lightPacketInterval;
-        time = Mth.clamp(time, 0, 1);
-
-        return entry.getPosition(0, true, time);
-
+            return entry.getPosition(0, true, time);
+        }).orElse(new Vec3(0, 0, 0));
     }
 
     public Train getTrain() {
@@ -68,11 +64,11 @@ public class TrainMapElement {
     }
 
     public List<ResourceKey<Level>> getDimensions() {
-        return train.getPresentDimensions();
+        return getTrainSyncEntry().map(entry -> entry.dimensions).orElse(List.of());
     }
 
     public boolean isInDimension(@Nullable ResourceKey<Level> dimension) {
         if (dimension == null) return false;
-        return train.getPresentDimensions().contains(dimension);
+        return getDimensions().contains(dimension);
     }
 }
