@@ -2,9 +2,7 @@ package eu.dudko.create_whatt.mixin.compat.xaeros;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.simibubi.create.content.trains.entity.Train;
 import eu.dudko.create_whatt.CreateWhaTT;
-import eu.dudko.create_whatt.CreateWhaTTClient;
 import eu.dudko.create_whatt.compat.xaeros.WorldMapExtension;
 import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElement;
 import net.minecraft.client.Minecraft;
@@ -36,10 +34,7 @@ import xaero.map.gui.GuiMap;
 import xaero.map.gui.GuiTexturedButton;
 import xaero.map.gui.IRightClickableElement;
 import xaero.map.gui.MapMouseButtonPress;
-import xaero.map.gui.dropdown.rightclick.RightClickOption;
 import xaero.map.world.MapDimension;
-
-import java.util.ArrayList;
 
 import static eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMenuRenderer.*;
 
@@ -92,7 +87,7 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
     @Unique
     private boolean create_whatt$overTrainsMenu;
 
-    // START: Train Tracker
+    // START: Trains Menu
 
     @Inject(method = "init", at = @At("RETURN"))
     public void create_whatt$initExtras(CallbackInfo ci) {
@@ -287,26 +282,7 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
         return Math.max(0, topmostRightButton - TRAINS_BUTTON_W);
     }
 
-    // END: Train Tracker
-
-    // START: Right Click Options
-
-    @Inject(method = "getRightClickOptions",
-            at = @At(value = "INVOKE",
-                    target = "Lxaero/map/util/DistanceUtils;addDistanceRightClickOption(DDDZLxaero/map/gui/IRightClickableElement;Lnet/minecraft/world/entity/Entity;FLxaero/lib/client/config/ClientConfigManager;Ljava/util/ArrayList;)V"))
-    public void create_whatt$addTrainOptions(CallbackInfoReturnable<ArrayList<RightClickOption>> cir, @Local(name = "options") ArrayList<RightClickOption> options) {
-        final Train hoveredTrain = CreateWhaTTClient.HOVERED_TRAIN;
-        if (hoveredTrain != null) {
-            options.add(new RightClickOption("gui.xaero_whatt_copy_train_uuid", options.size(), this) {
-                @Override
-                public void onAction(Screen screen) {
-                    Minecraft.getInstance().keyboardHandler.setClipboard(hoveredTrain.id.toString());
-                }
-            });
-        }
-    }
-
-    // END: Right Click Options
+    // END: Trains Menu
 
     @Unique
     private GuiMap create_whatt$self() {

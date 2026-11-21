@@ -15,6 +15,7 @@ public class CClient extends ConfigBase {
     public final ConfigBool showOfflineOwners = b(true, "showOfflineOwners", Comments.showOfflineOwners);
     public final ConfigBool showOfflineOwnerIcon = b(true, "showOfflineOwnerIcon", Comments.showOfflineOwnerIcon);
     public final ConfigInt offlineOwnerNameColor = i(0xE0A3A3, "offlineOwnerNameColor", Comments.offlineOwnerNameColor);
+    public final ConfigInt trainMapTeleportYOffset = i(2, "trainMapTeleportYOffset", Comments.trainMapTeleportYOffset);
 
     public final ConfigBool showTrainUuid = b(false, "showTrainUuid", Comments.showTrainUuid);
 
@@ -32,6 +33,7 @@ public class CClient extends ConfigBase {
                 "[in Hex: #RrGgBb]",
                 ConfigAnnotations.IntDisplay.HEX.asComment()
         };
-        static String showTrainUuid = "Show train UUID on map.";
+        static String showTrainUuid = "Show train ID on map.";
+        static String trainMapTeleportYOffset = "Amount to add to train's Y coordinate when teleporting on map.";
     }
 }

@@ -15,13 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class TrainMapElement {
-
-    private final Train train;
-
-    public TrainMapElement(Train train) {
-        this.train = train;
-    }
+public record TrainMapElement(Train train) {
 
     public String getTrainNameString() {
         return train.name.getString();
@@ -66,10 +60,6 @@ public class TrainMapElement {
             return entry.getPosition(backwards ? train.carriages.size() - 1 : 0, !backwards, time);
 
         }).orElse(new Vec3(0, 0, 0));
-    }
-
-    public Train getTrain() {
-        return train;
     }
 
     public List<ResourceKey<Level>> getDimensions() {

@@ -57,7 +57,7 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
 
     @Override
     public void renderInMenu(TrainMapElement element, GuiGraphics guiGraphics, Screen gui, int mouseX, int mouseY, double scale, boolean enabled, boolean hovered, Minecraft mc, boolean pressed, int textX) {
-        this.iconRenderer.renderIcon(guiGraphics, element.getTrain());
+        this.iconRenderer.renderIcon(guiGraphics, element.train());
     }
 
     @Override
