@@ -1,5 +1,6 @@
 package eu.dudko.create_whatt.compat.xaeros.train_tracker;
 
+import com.simibubi.create.CreateClient;
 import xaero.map.element.MapElementRenderProvider;
 import xaero.map.element.render.ElementRenderLocation;
 
@@ -13,7 +14,7 @@ public class TrainMapElementRenderProvider<C> extends MapElementRenderProvider<T
 
     @Override
     public void begin(ElementRenderLocation location, C context) {
-        this.iterator = TrainMapElementCollector.getElements().iterator();
+        this.iterator = CreateClient.RAILWAYS.trains.values().stream().map(TrainMapElement::new).toList().iterator();
     }
 
     @Override
