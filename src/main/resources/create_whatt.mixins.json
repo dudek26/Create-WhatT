@@ -3,7 +3,6 @@
   "package": "eu.dudko.create_whatt.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "compat.xaeros.SupportModsMixin"
   ],
   "client": [
     "TrainMapManagerMixin",
@@ -11,6 +10,7 @@
     "accessor.SupportXaeroMinimapAccessor",
     "compat.xaeros.GuiMapMixin",
     "compat.xaeros.GuiRightClickMenuMixin",
+    "compat.xaeros.SupportModsMixin",
     "compat.xaeros.WorldMapMixin"
   ],
   "injectors": {

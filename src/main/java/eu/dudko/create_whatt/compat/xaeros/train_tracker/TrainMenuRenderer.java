@@ -1,9 +1,13 @@
 package eu.dudko.create_whatt.compat.xaeros.train_tracker;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import eu.dudko.create_whatt.CreateWhaTT;
 import eu.dudko.create_whatt.CreateWhaTTClient;
+import eu.dudko.create_whatt.compat.xaeros.GuiMapExpansion;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +16,8 @@ import xaero.map.element.MapElementRenderProvider;
 import xaero.map.element.render.ElementReader;
 import xaero.map.element.render.ElementRenderer;
 import xaero.map.world.MapWorld;
+
+import java.util.List;
 
 public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, TrainMenuRenderContext> {
 
@@ -23,6 +29,7 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
     public static final int TRAINS_ICON_TEXTURE_HEIGHT = 11;
     public static final int TRAINS_ICON_TEXTURE_X = 0;
     public static final int TRAINS_ICON_TEXTURE_Y = 0;
+    public static final String TRAIN_WARNING_ICON = "<!> ";
 
     private final TrainIconRenderer iconRenderer;
     private final TrainMapElementRenderer renderer;
@@ -57,7 +64,7 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
 
     @Override
     public int menuStartPos(int height) {
-        return height - 200;
+        return GuiMapExpansion.MENU_Y - 5 - Math.min(GuiMapExpansion.COLUMN, 1) * TrainMenuRenderer.TRAINS_BUTTON_H;
     }
 
     @Override
@@ -99,9 +106,51 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
                 hovered,
                 mc,
                 pressed);
-        if (hovered && element instanceof TrainMapElement trainElement) {
+        if (!(element instanceof TrainMapElement trainElement)) return;
+        if (hovered) {
             hoveredElement = trainElement;
         }
+
+        if (!trainElement.hasWarning()) return;
+
+        PoseStack matrixStack = guiGraphics.pose();
+        matrixStack.pushPose();
+        if (hovered) {
+            matrixStack.translate(pressed ? 1.0F : 2.0F, 0.0F, 0.0F);
+        }
+
+        matrixStack.translate(x, y, 0.0F);
+        matrixStack.scale((float) scale, (float) scale, 1.0F);
+        matrixStack.translate(-4.0F, -4.0F, 0.0F);
+
+        String warning = TRAIN_WARNING_ICON;
+        String name = reader.getMenuName(element);
+        int len = mc.font.width(name) + mc.font.width(warning);
+        int textX = -3 - len;
+        guiGraphics.drawString(mc.font, warning, textX, 0, 0xFFFFAD60);
+
+        matrixStack.popPose();
+    }
+
+    public static int[] findTrainsButtonPos(int width, int height, List<Renderable> renderables) {
+        int x = 0;
+        int y = 0;
+        int i;
+        for (i = 0; i < 3; i++) {
+            x = width - i * 20;
+            y = height;
+            for (Renderable renderable : renderables) {
+                if (renderable instanceof Button button
+                        && button.getX() == x - TRAINS_BUTTON_W
+                        && button.getY() >= height / 4) {
+                    y = Math.min(y, button.getY());
+                }
+            }
+            if (y >= height / 2) {
+                break;
+            }
+        }
+        return new int[]{x - TRAINS_BUTTON_X, Math.max(0, y - TRAINS_BUTTON_H), i};
     }
 
     public static final class Builder {

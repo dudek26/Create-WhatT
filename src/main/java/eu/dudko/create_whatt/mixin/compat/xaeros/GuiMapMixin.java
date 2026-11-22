@@ -2,8 +2,10 @@ package eu.dudko.create_whatt.mixin.compat.xaeros;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import eu.dudko.create_whatt.compat.xaeros.GuiMapExpansion;
 import eu.dudko.create_whatt.compat.xaeros.WorldMapExtension;
 import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElement;
+import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMenuRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -95,10 +97,12 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                 new Tooltip(this.create_whatt$trainsMenu ?
                             "gui.xaero_whatt_box_close_trains" :
                             "gui.xaero_whatt_box_open_trains");
+        int[] buttonPos = TrainMenuRenderer.findTrainsButtonPos(this.width, this.height, this.renderables);
+        GuiMapExpansion.COLUMN = buttonPos[2];
         this.addButton(
                 this.create_whatt$trainsButton =
-                        new GuiTexturedButton(this.width - TRAINS_BUTTON_X,
-                                create_whatt$findTrainsButtonTop(),
+                        new GuiTexturedButton(GuiMapExpansion.MENU_X = buttonPos[0],
+                                GuiMapExpansion.MENU_Y = buttonPos[1],
                                 TRAINS_BUTTON_W,
                                 TRAINS_BUTTON_H,
                                 TRAINS_ICON_TEXTURE_X,
@@ -260,19 +264,6 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
         this.create_whatt$toggleTrainsMenu();
         this.init(this.minecraft, this.width, this.height);
         this.setFocused(this.create_whatt$trainsButton);
-    }
-
-    @Unique
-    private int create_whatt$findTrainsButtonTop() {
-        int topmostRightButton = this.height;
-        for (Renderable renderable : renderables) {
-            if (renderable instanceof Button button
-                    && button.getX() == this.width - TRAINS_BUTTON_W
-                    && button.getY() >= this.height / 2) {
-                topmostRightButton = Math.min(topmostRightButton, button.getY());
-            }
-        }
-        return Math.max(0, topmostRightButton - TRAINS_BUTTON_W);
     }
 
     // END: Trains Menu

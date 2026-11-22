@@ -17,6 +17,13 @@ import java.util.UUID;
 
 public record TrainMapElement(Train train) {
 
+    static final List<TrainMapSync.TrainState>
+            warningStates =
+            List.of(TrainMapSync.TrainState.DERAILED,
+                    TrainMapSync.TrainState.CONDUCTOR_MISSING,
+                    TrainMapSync.TrainState.SCHEDULE_INTERRUPTED,
+                    TrainMapSync.TrainState.NAVIGATION_FAILED);
+
     public String getTrainNameString() {
         return train.name.getString();
     }
@@ -92,6 +99,10 @@ public record TrainMapElement(Train train) {
      */
     public boolean isSameDimension(ResourceKey<Level> dimension, boolean fromFirstCarriage) {
         return getFirstDimension(fromFirstCarriage) == dimension;
+    }
+
+    public boolean hasWarning() {
+        return this.getTrainSyncEntry().map(entry -> warningStates.contains(entry.state)).orElse(false);
     }
 
 }

@@ -239,7 +239,7 @@ public class TrainMapElementReader extends MapElementReader<TrainMapElement, Tra
 
     @Override
     public int getMenuTextFillLeftPadding(TrainMapElement element) {
-        return 0;
+        return element.hasWarning() ? Minecraft.getInstance().font.width(TrainMenuRenderer.TRAIN_WARNING_ICON) : 0;
     }
 
     @Override
