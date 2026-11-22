@@ -25,9 +25,6 @@ public class CreateWhaTTClient {
         if (HOVERED_TRAIN != null) {
             return HOVERED_TRAIN;
         }
-        if (HOVERED_MENU_TRAIN == null) {
-            CreateWhaTT.LOGGER.info("Hovered Train Not Found");
-        }
         return HOVERED_MENU_TRAIN;
     }
 

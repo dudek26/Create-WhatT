@@ -145,12 +145,12 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                         && WorldMapExtension.trainsMenuRenderer.canJumpTo(element, this.mapProcessor.getMapWorld())
                         && this.leftMouseButton.clicked) {
                     TrainMapElement clickedTrain = (TrainMapElement) this.viewed.getElement();
-                    ResourceKey<Level> clickedTrainDim = clickedTrain.getDimensions().getFirst();
+                    ResourceKey<Level> clickedTrainDim = clickedTrain.getFirstDimension(false);
                     MapDimension clickedTrainMapDim = this.mapProcessor.getMapWorld().getDimension(clickedTrainDim);
                     DimensionType
                             clickedTrainDimType =
                             MapDimension.getDimensionType(clickedTrainMapDim,
-                                    clickedTrain.getDimensions().getFirst(),
+                                    clickedTrain.getFirstDimension(false),
                                     this.mapProcessor.getWorldDimensionTypeRegistry());
                     double
                             clickedTrainDimDiv =

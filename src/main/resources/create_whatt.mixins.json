@@ -7,9 +7,10 @@
   ],
   "client": [
     "TrainMapManagerMixin",
+    "accessor.GuiMapAccessor",
+    "accessor.SupportXaeroMinimapAccessor",
     "compat.xaeros.GuiMapMixin",
     "compat.xaeros.GuiRightClickMenuMixin",
-    "compat.xaeros.ISupportXaeroMinimap",
     "compat.xaeros.WorldMapMixin"
   ],
   "injectors": {

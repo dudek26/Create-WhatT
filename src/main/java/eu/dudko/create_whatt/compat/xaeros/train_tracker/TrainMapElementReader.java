@@ -9,6 +9,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.dimension.DimensionType;
 import xaero.lib.client.config.ClientConfigManager;
 import xaero.map.WorldMap;
 import xaero.map.WorldMapSession;
@@ -34,7 +37,7 @@ public class TrainMapElementReader extends MapElementReader<TrainMapElement, Tra
 
     public boolean isSameDimension(TrainMapElement element, MapWorld mapWorld) {
         MapDimension currentDimension = mapWorld.getCurrentDimension();
-        MapDimension trainDimension = mapWorld.getDimension(element.getDimensions().getFirst());
+        MapDimension trainDimension = mapWorld.getDimension(element.getFirstDimension(false));
         return currentDimension == trainDimension;
     }
 
@@ -51,20 +54,49 @@ public class TrainMapElementReader extends MapElementReader<TrainMapElement, Tra
             }
         });
 
+        boolean
+                hasPosition =
+                element
+                        .getTrainSyncEntry()
+                        .map(entry -> entry.positions != null && entry.positions.length >= 2)
+                        .orElse(false);
+
         int x = (int) Math.floor(element.getX(false));
         int y = (int) Math.floor(element.getY(false));
         int z = (int) Math.floor(element.getZ(false));
 
+        ResourceKey<Level> trainDimension = element.getFirstDimension(false);
+
+        if (target instanceof GuiMap guiMap && trainDimension != null && hasPosition && !element.isSameDimension(guiMap
+                .getMapProcessor()
+                .getMapWorld()
+                .getCurrentDimensionId(), false)) {
+            options.add(new RightClickOption("", Style.EMPTY.withColor(ChatFormatting.GRAY), options.size(), target) {
+                @Override
+                public String getName() {
+                    return trainDimension.location().getPath();
+                }
+
+                @Override
+                public void onAction(Screen screen) {
+                }
+            });
+        }
+
         options.add(new RightClickOption("", Style.EMPTY.withColor(ChatFormatting.GRAY), options.size(), target) {
             @Override
             public String getName() {
-                return String.format("X: %d, Y: %s, Z: %d", x, y, z);
+                return hasPosition && trainDimension != null ?
+                       String.format("X: %d, Y: %s, Z: %d", x, y, z) :
+                       "gui.xaero_whatt_right_click_train_unknown_location";
             }
 
             @Override
             public void onAction(Screen screen) {
             }
         });
+
+
         options.add((new RightClickOption("gui.xaero_whatt_right_click_train_teleport", options.size(), target) {
             @Override
             public void onAction(Screen screen) {
@@ -74,19 +106,19 @@ public class TrainMapElementReader extends MapElementReader<TrainMapElement, Tra
                         x,
                         y + config.trainMapTeleportYOffset.get(),
                         z,
-                        element.getDimensions().getFirst());
+                        trainDimension);
             }
-        }).setNameFormatArgs(GuiUtils.getBoundKeyComponent("T")));
+        }).setActive(hasPosition && trainDimension != null).setNameFormatArgs(GuiUtils.getBoundKeyComponent("T")));
 
         if (SupportMods.minimap() && target instanceof GuiMap guiMap) {
-            options.add(new RightClickOption("gui.xaero_whatt_right_click_train_share_location",
+            options.add((new RightClickOption("gui.xaero_whatt_right_click_train_share_location",
                     options.size(),
                     target) {
                 @Override
                 public void onAction(Screen screen) {
                     SupportModsExtension.xaeroMinimap.shareTrainLocation(guiMap, element);
                 }
-            });
+            }).setActive(hasPosition && trainDimension != null));
         }
 
         Minecraft mc = Minecraft.getInstance();
@@ -104,16 +136,33 @@ public class TrainMapElementReader extends MapElementReader<TrainMapElement, Tra
             }
         });
 
-        ClientConfigManager configManager = WorldMap.INSTANCE.getConfigs().getClientConfigManager();
-        DistanceUtils.addDistanceRightClickOption(element.getX(false),
-                element.getY(false),
-                element.getZ(false),
-                false,
-                target,
-                mc.getCameraEntity(),
-                mc.getTimer().getGameTimeDeltaPartialTick(true),
-                configManager,
-                options);
+        if (trainDimension != null && target instanceof GuiMap guiMap) {
+            ClientConfigManager configManager = WorldMap.INSTANCE.getConfigs().getClientConfigManager();
+
+            MapDimension mapDim = guiMap.getMapProcessor().getMapWorld().getDimension(trainDimension);
+            DimensionType
+                    trainDImType =
+                    MapDimension.getDimensionType(mapDim,
+                            trainDimension,
+                            guiMap.getMapProcessor().getWorldDimensionTypeRegistry());
+            double
+                    dimDiv =
+                    guiMap
+                            .getMapProcessor()
+                            .getMapWorld()
+                            .getCurrentDimension()
+                            .calculateDimDiv(guiMap.getMapProcessor().getWorldDimensionTypeRegistry(), trainDImType);
+
+            DistanceUtils.addDistanceRightClickOption(element.getX(false) / dimDiv,
+                    element.getY(false),
+                    element.getZ(false) / dimDiv,
+                    false,
+                    target,
+                    mc.getCameraEntity(),
+                    mc.getTimer().getGameTimeDeltaPartialTick(true),
+                    configManager,
+                    options);
+        }
 
         return options;
     }

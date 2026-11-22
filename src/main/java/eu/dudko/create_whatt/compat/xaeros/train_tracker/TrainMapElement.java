@@ -29,14 +29,23 @@ public record TrainMapElement(Train train) {
         return train.id;
     }
 
+    /**
+     * @param fromFirstCarriage true will return the position of the first bogey in the first assembled carriage, false may return the position of the last bogey in the last carriage, if the train is driving backwards
+     */
     public double getX(boolean fromFirstCarriage) {
         return getPosition(fromFirstCarriage).x();
     }
 
+    /**
+     * @param fromFirstCarriage true will return the position of the first bogey in the first assembled carriage, false may return the position of the last bogey in the last carriage, if the train is driving backwards
+     */
     public double getY(boolean fromFirstCarriage) {
         return getPosition(fromFirstCarriage).y();
     }
 
+    /**
+     * @param fromFirstCarriage true will return the position of the first bogey in the first assembled carriage, false may return the position of the last bogey in the last carriage, if the train is driving backwards
+     */
     public double getZ(boolean fromFirstCarriage) {
         return getPosition(fromFirstCarriage).z();
     }
@@ -59,15 +68,30 @@ public record TrainMapElement(Train train) {
             boolean backwards = entry.backwards;
             return entry.getPosition(backwards ? train.carriages.size() - 1 : 0, !backwards, time);
 
-        }).orElse(new Vec3(0, 0, 0));
+        }).orElse(Vec3.ZERO);
     }
 
     public List<ResourceKey<Level>> getDimensions() {
         return getTrainSyncEntry().map(entry -> entry.dimensions).orElse(List.of());
     }
 
-    public boolean isInDimension(@Nullable ResourceKey<Level> dimension) {
-        if (dimension == null) return false;
-        return getDimensions().contains(dimension);
+    public boolean isDrivingBackwards() {
+        return getTrainSyncEntry().map(entry -> entry.backwards).orElse(false);
     }
+
+    /**
+     * @param fromFirstCarriage true will return the position of the first bogey in the first assembled carriage, false may return the position of the last bogey in the last carriage, if the train is driving backwards
+     */
+    @Nullable
+    public ResourceKey<Level> getFirstDimension(boolean fromFirstCarriage) {
+        return fromFirstCarriage || !isDrivingBackwards() ? getDimensions().getFirst() : getDimensions().getLast();
+    }
+
+    /**
+     * @param fromFirstCarriage true will return the position of the first bogey in the first assembled carriage, false may return the position of the last bogey in the last carriage, if the train is driving backwards
+     */
+    public boolean isSameDimension(ResourceKey<Level> dimension, boolean fromFirstCarriage) {
+        return getFirstDimension(fromFirstCarriage) == dimension;
+    }
+
 }
