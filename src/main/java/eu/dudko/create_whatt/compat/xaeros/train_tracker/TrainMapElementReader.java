@@ -1,7 +1,9 @@
 package eu.dudko.create_whatt.compat.xaeros.train_tracker;
 
+import eu.dudko.create_whatt.compat.xaeros.SupportModsExtension;
 import eu.dudko.create_whatt.config.CClient;
 import eu.dudko.create_whatt.config.WhattConfigs;
+import eu.dudko.create_whatt.foundation.TrainIndexColors;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -11,9 +13,11 @@ import xaero.lib.client.config.ClientConfigManager;
 import xaero.map.WorldMap;
 import xaero.map.WorldMapSession;
 import xaero.map.element.MapElementReader;
+import xaero.map.gui.GuiMap;
 import xaero.map.gui.IRightClickableElement;
 import xaero.map.gui.dropdown.rightclick.RightClickOption;
 import xaero.map.gui.util.GuiUtils;
+import xaero.map.mods.SupportMods;
 import xaero.map.teleport.MapTeleporter;
 import xaero.map.util.DistanceUtils;
 import xaero.map.world.MapDimension;
@@ -22,25 +26,6 @@ import xaero.map.world.MapWorld;
 import java.util.ArrayList;
 
 public class TrainMapElementReader extends MapElementReader<TrainMapElement, TrainMapElementRenderContext, TrainMapElementRenderer> {
-
-    public static final int[] TRAIN_INDEX_COLORS = new int[]{
-            0xFF696A6A,
-            0xFF8E6348,
-            0xFF67BF31,
-            0xFF3D6EBD,
-            0xFF303036,
-            0xFFB63A3A,
-            0xFFB63A3A,
-            0xFFA558C0,
-            0xFF4A555A,
-            0xFFEC9E37,
-            0xFF21AAAA,
-            0xFFDF68BD,
-            0xFF8A8A83,
-            0xFFE0B73E,
-            0xFF44C0D0,
-            0xFFF9B3BF
-    };
 
     @Override
     public boolean isHidden(TrainMapElement element, TrainMapElementRenderContext context) {
@@ -92,6 +77,17 @@ public class TrainMapElementReader extends MapElementReader<TrainMapElement, Tra
                         element.getDimensions().getFirst());
             }
         }).setNameFormatArgs(GuiUtils.getBoundKeyComponent("T")));
+
+        if (SupportMods.minimap() && target instanceof GuiMap guiMap) {
+            options.add(new RightClickOption("gui.xaero_whatt_right_click_train_share_location",
+                    options.size(),
+                    target) {
+                @Override
+                public void onAction(Screen screen) {
+                    SupportModsExtension.xaeroMinimap.shareTrainLocation(guiMap, element);
+                }
+            });
+        }
 
         Minecraft mc = Minecraft.getInstance();
         options.add(new RightClickOption("gui.xaero_whatt_copy_train_uuid", 0, target) {
@@ -192,7 +188,7 @@ public class TrainMapElementReader extends MapElementReader<TrainMapElement, Tra
 
     @Override
     public int getRightClickTitleBackgroundColor(TrainMapElement element) {
-        return TRAIN_INDEX_COLORS[element.train().mapColorIndex];
+        return TrainIndexColors.toColor(element.train().mapColorIndex);
     }
 
     @Override

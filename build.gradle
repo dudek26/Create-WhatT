@@ -102,6 +102,9 @@ dependencies {
 
     compileOnly("xaero.map:xaeroworldmap-neoforge-1.21.1:${xaeros_worldmap_version}")
     localRuntime("xaero.map:xaeroworldmap-neoforge-1.21.1:${xaeros_worldmap_version}")
+
+    compileOnly("xaero.minimap:xaerominimap-neoforge-1.21.1:${xaeros_minimap_version}")
+    localRuntime("xaero.minimap:xaerominimap-neoforge-1.21.1:${xaeros_minimap_version}")
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
