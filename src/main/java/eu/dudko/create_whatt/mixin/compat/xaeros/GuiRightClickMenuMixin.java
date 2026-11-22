@@ -29,7 +29,7 @@ public abstract class GuiRightClickMenuMixin {
     @Inject(method = "getMenu", at = @At("RETURN"), cancellable = true)
     private static void create_whatt$getMenu(IRightClickableElement rightClickable, GuiMap screen, int x, int y, int w, CallbackInfoReturnable<GuiRightClickMenu> cir) {
         if (rightClickable instanceof GuiMap) {
-            final Train hoveredTrain = CreateWhaTTClient.HOVERED_TRAIN;
+            final Train hoveredTrain = CreateWhaTTClient.getHoveredTrain();
 
             if (hoveredTrain != null) {
                 final TrainMapElement element = new TrainMapElement(hoveredTrain);

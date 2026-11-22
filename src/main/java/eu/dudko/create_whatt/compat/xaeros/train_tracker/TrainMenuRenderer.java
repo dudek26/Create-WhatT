@@ -1,12 +1,15 @@
 package eu.dudko.create_whatt.compat.xaeros.train_tracker;
 
 import eu.dudko.create_whatt.CreateWhaTT;
+import eu.dudko.create_whatt.CreateWhaTTClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 import xaero.map.element.MapElementMenuRenderer;
 import xaero.map.element.MapElementRenderProvider;
+import xaero.map.element.render.ElementReader;
 import xaero.map.element.render.ElementRenderer;
 import xaero.map.world.MapWorld;
 
@@ -24,6 +27,8 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
     private final TrainIconRenderer iconRenderer;
     private final TrainMapElementRenderer renderer;
 
+    private @Nullable TrainMapElement hoveredElement;
+
     protected TrainMenuRenderer(TrainMapElementRenderer renderer, TrainMenuRenderContext context, MapElementRenderProvider<TrainMapElement, TrainMenuRenderContext> provider, TrainIconRenderer iconRenderer) {
         super(context, provider);
         this.renderer = renderer;
@@ -32,12 +37,17 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
 
     @Override
     protected void beforeMenuRender() {
-
+        hoveredElement = null;
     }
 
     @Override
     protected void afterMenuRender() {
-
+        if (hoveredElement != null) {
+            CreateWhaTTClient.HOVERED_MENU_TRAIN = hoveredElement.train();
+        }
+        else {
+            CreateWhaTTClient.HOVERED_MENU_TRAIN = null;
+        }
     }
 
     @Override
@@ -72,6 +82,26 @@ public class TrainMenuRenderer extends MapElementMenuRenderer<TrainMapElement, T
 
     public boolean canJumpTo(TrainMapElement element, MapWorld mapWorld) {
         return this.renderer.getReader().isSameDimension(element, mapWorld);
+    }
+
+    @Override
+    public <O> void renderMenuElement(ElementReader<O, ?, ?> reader, O element, GuiGraphics guiGraphics, Screen gui, int x, int y, int mouseX, int mouseY, double scale, boolean enabled, boolean hovered, Minecraft mc, boolean pressed) {
+        super.renderMenuElement(reader,
+                element,
+                guiGraphics,
+                gui,
+                x,
+                y,
+                mouseX,
+                mouseY,
+                scale,
+                enabled,
+                hovered,
+                mc,
+                pressed);
+        if (hovered && element instanceof TrainMapElement trainElement) {
+            hoveredElement = trainElement;
+        }
     }
 
     public static final class Builder {

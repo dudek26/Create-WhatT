@@ -19,6 +19,17 @@ import java.util.function.Supplier;
 public class CreateWhaTTClient {
 
     public static Train HOVERED_TRAIN = null;
+    public static Train HOVERED_MENU_TRAIN = null;
+
+    public static Train getHoveredTrain() {
+        if (HOVERED_TRAIN != null) {
+            return HOVERED_TRAIN;
+        }
+        if (HOVERED_MENU_TRAIN == null) {
+            CreateWhaTT.LOGGER.info("Hovered Train Not Found");
+        }
+        return HOVERED_MENU_TRAIN;
+    }
 
     private final ModContainer container;
 
