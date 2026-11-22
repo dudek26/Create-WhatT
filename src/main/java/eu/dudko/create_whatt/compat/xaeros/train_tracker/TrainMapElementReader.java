@@ -90,7 +90,14 @@ public class TrainMapElementReader extends MapElementReader<TrainMapElement, Tra
         }
 
         Minecraft mc = Minecraft.getInstance();
-        options.add(new RightClickOption("gui.xaero_whatt_copy_train_uuid", 0, target) {
+        options.add(new RightClickOption("gui.xaero_whatt_copy_train_name", options.size(), target) {
+            @Override
+            public void onAction(Screen screen) {
+                mc.keyboardHandler.setClipboard(element.getTrainNameString());
+            }
+        });
+
+        options.add(new RightClickOption("gui.xaero_whatt_copy_train_uuid", options.size(), target) {
             @Override
             public void onAction(Screen screen) {
                 mc.keyboardHandler.setClipboard(element.getTrainId().toString());

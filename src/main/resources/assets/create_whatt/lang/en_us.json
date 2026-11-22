@@ -1,5 +1,6 @@
 {
   "gui.xaero_whatt_copy_train_uuid": "Copy Train ID",
+  "gui.xaero_whatt_copy_train_name": "Copy Train Name",
   "gui.xaero_whatt_right_click_train_teleport": "Teleport to Train",
   "gui.xaero_whatt_right_click_train_share_location": "Share Train in Chat",
   "gui.xaero_whatt_filter_trains_by_name": "Filter Trains...",
