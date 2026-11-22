@@ -91,6 +91,7 @@ public record TrainMapElement(Train train) {
      */
     @Nullable
     public ResourceKey<Level> getFirstDimension(boolean fromFirstCarriage) {
+        if (getDimensions().isEmpty()) return null;
         return fromFirstCarriage || !isDrivingBackwards() ? getDimensions().getFirst() : getDimensions().getLast();
     }
 
