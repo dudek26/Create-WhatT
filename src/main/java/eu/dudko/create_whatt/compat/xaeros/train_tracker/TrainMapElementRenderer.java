@@ -105,7 +105,7 @@ public class TrainMapElementRenderer extends MapElementRenderer<TrainMapElement,
 
     @Override
     public int getOrder() {
-        return 199;
+        return 250;
     }
 
     public static final class Builder {
