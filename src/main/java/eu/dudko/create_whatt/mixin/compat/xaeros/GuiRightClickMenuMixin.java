@@ -2,8 +2,8 @@ package eu.dudko.create_whatt.mixin.compat.xaeros;
 
 import com.simibubi.create.content.trains.entity.Train;
 import eu.dudko.create_whatt.CreateWhaTTClient;
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElement;
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElementReader;
+import eu.dudko.create_whatt.compat.xaeros.train.TrainMapElement;
+import eu.dudko.create_whatt.compat.xaeros.train.TrainMapElementReader;
 import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;

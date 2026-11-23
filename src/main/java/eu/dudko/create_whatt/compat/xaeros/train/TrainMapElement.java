@@ -1,4 +1,4 @@
-package eu.dudko.create_whatt.compat.xaeros.train_tracker;
+package eu.dudko.create_whatt.compat.xaeros.train;
 
 import com.simibubi.create.compat.trainmap.TrainMapSync;
 import com.simibubi.create.compat.trainmap.TrainMapSync.TrainMapSyncEntry;

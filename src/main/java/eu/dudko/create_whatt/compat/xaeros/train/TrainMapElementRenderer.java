@@ -1,4 +1,4 @@
-package eu.dudko.create_whatt.compat.xaeros.train_tracker;
+package eu.dudko.create_whatt.compat.xaeros.train;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

@@ -1,7 +1,7 @@
 package eu.dudko.create_whatt.compat.xaeros;
 
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElementRenderer;
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMenuRenderer;
+import eu.dudko.create_whatt.compat.xaeros.train.TrainMapElementRenderer;
+import eu.dudko.create_whatt.compat.xaeros.train.TrainMenuRenderer;
 
 public class WorldMapExtension {
     public static TrainMapElementRenderer trainsMapElementRenderer;

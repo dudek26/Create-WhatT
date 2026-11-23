@@ -1,6 +1,6 @@
 package eu.dudko.create_whatt.compat.xaeros;
 
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElement;
+import eu.dudko.create_whatt.compat.xaeros.train.TrainMapElement;
 import eu.dudko.create_whatt.foundation.TrainIndexColors;
 import eu.dudko.create_whatt.mixin.accessor.GuiMapAccessor;
 import eu.dudko.create_whatt.mixin.accessor.SupportXaeroMinimapAccessor;

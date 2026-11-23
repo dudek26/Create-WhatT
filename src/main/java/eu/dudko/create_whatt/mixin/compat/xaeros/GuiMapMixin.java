@@ -4,8 +4,8 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import eu.dudko.create_whatt.compat.xaeros.GuiMapExpansion;
 import eu.dudko.create_whatt.compat.xaeros.WorldMapExtension;
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMapElement;
-import eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMenuRenderer;
+import eu.dudko.create_whatt.compat.xaeros.train.TrainMapElement;
+import eu.dudko.create_whatt.compat.xaeros.train.TrainMenuRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -37,7 +37,7 @@ import xaero.map.gui.IRightClickableElement;
 import xaero.map.gui.MapMouseButtonPress;
 import xaero.map.world.MapDimension;
 
-import static eu.dudko.create_whatt.compat.xaeros.train_tracker.TrainMenuRenderer.*;
+import static eu.dudko.create_whatt.compat.xaeros.train.TrainMenuRenderer.*;
 
 @Mixin(value = GuiMap.class)
 public abstract class GuiMapMixin extends ScreenBase implements IRightClickableElement {

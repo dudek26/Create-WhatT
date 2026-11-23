@@ -1,4 +1,4 @@
-package eu.dudko.create_whatt.compat.xaeros.train_tracker;
+package eu.dudko.create_whatt.compat.xaeros.train;
 
 import eu.dudko.create_whatt.compat.xaeros.SupportModsExtension;
 import eu.dudko.create_whatt.config.CClient;
