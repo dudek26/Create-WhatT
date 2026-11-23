@@ -34,14 +34,18 @@ public abstract class GuiRightClickMenuMixin {
             if (hoveredTrain != null) {
                 final TrainMapElement element = new TrainMapElement(hoveredTrain);
 
-                cir.setReturnValue(create_whatt$create(rightClickable,
-                        new TrainMapElementReader().getRightClickOptions(element, rightClickable),
-                        screen,
-                        x,
-                        y,
-                        w,
-                        new TrainMapElementReader().getRightClickTitleBackgroundColor(element),
-                        screen));
+                GuiRightClickMenu
+                        menu =
+                        create_whatt$create(rightClickable,
+                                new TrainMapElementReader().getRightClickOptions(element, rightClickable),
+                                screen,
+                                x,
+                                y,
+                                w,
+                                new TrainMapElementReader().getRightClickTitleBackgroundColor(element),
+                                screen);
+
+                cir.setReturnValue(menu);
             }
         }
     }

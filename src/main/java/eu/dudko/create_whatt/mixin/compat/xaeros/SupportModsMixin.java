@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xaero.map.mods.SupportMods;
 
 @Mixin(SupportMods.class)
-public class SupportModsMixin {
+public abstract class SupportModsMixin {
 
     @Inject(method = "load", at = @At(value = "INVOKE", target = "Lxaero/map/mods/SupportXaeroMinimap;register()V"))
     private void create_whatt$supportMinimap(CallbackInfo ci) {

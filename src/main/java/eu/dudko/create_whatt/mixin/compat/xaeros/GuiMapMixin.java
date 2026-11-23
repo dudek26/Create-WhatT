@@ -119,7 +119,7 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
     @Inject(method = "render",
             at = @At(value = "INVOKE",
                     target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V",
-                    ordinal = 9,
+                    ordinal = 8,
                     shift = At.Shift.AFTER))
     public void create_whatt$renderTrainsMenu(CallbackInfo ci, @Local(argsOnly = true) GuiGraphics guiGraphics, @Local(
             name = "scaledMouseX") int scaledMouseX, @Local(name = "scaledMouseY") int scaledMouseY, @Local(name = "mc") Minecraft mc) {
