@@ -6,5 +6,7 @@
   "gui.xaero_whatt_right_click_train_share_location": "Share Train in Chat",
   "gui.xaero_whatt_filter_trains_by_name": "Filter Trains...",
   "gui.xaero_whatt_box_open_trains": "Open trains menu",
-  "gui.xaero_whatt_box_close_trains": "Close trains menu"
+  "gui.xaero_whatt_box_close_trains": "Close trains menu",
+  "create_whatt.train_map.player_not_found": "unknown player",
+  "create_whatt.train_map.player_fetching": "..."
 }

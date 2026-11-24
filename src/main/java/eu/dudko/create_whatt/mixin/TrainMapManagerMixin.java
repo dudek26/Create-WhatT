@@ -34,11 +34,11 @@ public abstract class TrainMapManagerMixin {
         if (!config.showOfflineOwners.get()) return;
 
         if (trainEntry.ownerName.isBlank()) {
-            String ownerName = ProfileManager.INSTANCE.getNameOrFetch(train.owner, "...");
+            ProfileManager.Result ownerProfileResult = ProfileManager.INSTANCE.getProfileResult(train.owner);
             boolean showIcon = config.showOfflineOwnerIcon.get();
             int color = config.offlineOwnerNameColor.get();
 
-            LangBuilder builder = CreateLang.translate("train_map.train_owned_by", ownerName);
+            LangBuilder builder = CreateLang.translate("train_map.train_owned_by", ownerProfileResult.getName());
             if (showIcon) builder.add(Component.literal(" \uEF23"));
             builder.color(color);
             builder.addTo(output);
